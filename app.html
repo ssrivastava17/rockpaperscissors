@@ -1,0 +1,82 @@
+<script>
+
+
+    function getcomputerChoice(){ 
+        let computerSelection = Math.floor(Math.random()* 3) +1;
+        
+        if (computerSelection == 1){
+            return computerSelection = "Rock";
+        } else if (computerSelection == 2){
+            return computerSelection = "Paper";
+        } else {
+            return computerSelection = "Scissors";
+        }
+    }
+
+    function getplayerChoice(){
+        let input = prompt("Do you choose rock, paper or scissors?")
+        input = input.toLowerCase();
+        let playerSelection = input[0].toUpperCase() + input.slice(1);
+        return playerSelection;
+    }
+    
+    // const playerSelection = "Rock";
+    // const computerSelection = getcomputerChoice();
+
+    function playRound(playerSelection, computerSelection){
+        let winner = null;
+        // rock > scissors > paper > rock
+        console.log("You chose: " + playerSelection);
+        console.log("Computer chose: " + computerSelection)
+        if (playerSelection == "Rock"){
+            if(computerSelection == "Rock"){
+                winner = "Tie!";
+            } else if (computerSelection == "Paper"){
+                winner = "Computer Wins!";
+            } else {
+                winner = "You win!"
+            }
+
+        } else if (playerSelection == "Paper"){
+            if(computerSelection == "Rock"){
+                winner = "You win!";
+            } else if (computerSelection == "Paper"){
+                winner = "Tie!";
+            } else {
+                winner = "Computer Wins"
+            }
+        } else {
+            if(computerSelection == "Rock"){
+                winner = "Computer Wins";
+            } else if (computerSelection == "Paper"){
+                winner = "You win!";
+            } else {
+                winner = "Tie!"
+            }
+        }
+
+
+        return winner;
+    }
+
+    // console.log(playRound(playerSelection, computerSelection))
+    function game(){
+        let myScore = 0;
+        let computerScore = 0;
+        for (let i = 0; i < 5; i++){
+            const playerSelection = getplayerChoice();
+            const computerSelection = getcomputerChoice();
+            let winner = playRound(playerSelection, computerSelection)
+            console.log(winner);
+            if(winner[0]=="Y"){
+                myScore++;
+            }
+            if(winner[0]=="C"){
+                computerScore++;
+            }
+        }
+        console.log("Your score: " + myScore);
+        console.log("Computer score: " + computerScore);
+    }
+    game();
+</script>
