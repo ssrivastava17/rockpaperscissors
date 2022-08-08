@@ -1,82 +1,120 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rock Paper Scissors</title>
+</head>
+<body>
+    <h1>Rock, Paper, Scissors</h1>
 
+    <div class="results">
+        <h2>Score</h2>
+        You:
+        <p id="playerScore">0</p>
+        <br>
+        Computer: 
+        <p id="computerScore">0</p>
+        <br>
 
-    function getcomputerChoice(){ 
-        let computerSelection = Math.floor(Math.random()* 3) +1;
+        Choose your weapon: 
+        <div class="weapon">
+            <button class="btn" id="Rock">Rock</button>
+            <button class="btn" id="Paper">Paper</button>
+            <button class="btn" id="Scissors">Scissors</button>
+        </div>
+        <br>
+        Result:
+        <p id="winner"></p>
+
+    </div>
+    <script>
+
+        function getcomputerChoice(){ 
+            let computerSelection = Math.floor(Math.random()* 3) +1;
+            if (computerSelection == 1){
+                return computerSelection = "Rock";
+            } else if (computerSelection == 2){
+                return computerSelection = "Paper";
+            } else {
+                return computerSelection = "Scissors";
+            }
+        }
         
-        if (computerSelection == 1){
-            return computerSelection = "Rock";
-        } else if (computerSelection == 2){
-            return computerSelection = "Paper";
-        } else {
-            return computerSelection = "Scissors";
+        function playRound(playerSelection, computerSelection){
+            let winner = null;
+            // rock > scissors > paper > rock
+            if (playerSelection == "Rock"){
+                if(computerSelection == "Rock"){
+                    winner = "Tie!";
+                } else if (computerSelection == "Paper"){
+                    winner = "Computer Wins!";
+                } else {
+                    winner = "You win!";
+                }
+                
+            } else if (playerSelection == "Paper"){
+                if(computerSelection == "Rock"){
+                    winner = "You win!";
+                } else if (computerSelection == "Paper"){
+                    winner = "Tie!";
+                } else {
+                    winner = "Computer Wins";
+                }
+            } else {
+                if(computerSelection == "Rock"){
+                    winner = "Computer Wins";
+                } else if (computerSelection == "Paper"){
+                    winner = "You win!";
+                } else {
+                    winner = "Tie!"
+                }
+            }
+            return winner;
         }
-    }
-
-    function getplayerChoice(){
-        let input = prompt("Do you choose rock, paper or scissors?")
-        input = input.toLowerCase();
-        let playerSelection = input[0].toUpperCase() + input.slice(1);
-        return playerSelection;
-    }
-    
-    // const playerSelection = "Rock";
-    // const computerSelection = getcomputerChoice();
-
-    function playRound(playerSelection, computerSelection){
-        let winner = null;
-        // rock > scissors > paper > rock
-        console.log("You chose: " + playerSelection);
-        console.log("Computer chose: " + computerSelection)
-        if (playerSelection == "Rock"){
-            if(computerSelection == "Rock"){
-                winner = "Tie!";
-            } else if (computerSelection == "Paper"){
-                winner = "Computer Wins!";
-            } else {
-                winner = "You win!"
-            }
-
-        } else if (playerSelection == "Paper"){
-            if(computerSelection == "Rock"){
-                winner = "You win!";
-            } else if (computerSelection == "Paper"){
-                winner = "Tie!";
-            } else {
-                winner = "Computer Wins"
-            }
-        } else {
-            if(computerSelection == "Rock"){
-                winner = "Computer Wins";
-            } else if (computerSelection == "Paper"){
-                winner = "You win!";
-            } else {
-                winner = "Tie!"
+        
+        function gameOver(myScore, computerScore){
+            if(myScore == 5 || computerScore == 5){
+                const btns = document.querySelectorAll('.btn');
+                btns.forEach(btn => btn.style.visibility = "hidden");
             }
         }
 
+        function game(){
+            let myScore = 0;
+            let computerScore = 0;
+            let playerSelection = null;
+            let computerSelection = null;
 
-        return winner;
-    }
+            const btns = document.querySelectorAll('.btn');
+            btns.forEach(btn => btn.addEventListener('click', function(e){
+                console.log(e.srcElement.id);
+                playerSelection = e.srcElement.id;
+                computerSelection = getcomputerChoice();
+                let winner = playRound(playerSelection, computerSelection)
 
-    // console.log(playRound(playerSelection, computerSelection))
-    function game(){
-        let myScore = 0;
-        let computerScore = 0;
-        for (let i = 0; i < 5; i++){
-            const playerSelection = getplayerChoice();
-            const computerSelection = getcomputerChoice();
-            let winner = playRound(playerSelection, computerSelection)
-            console.log(winner);
-            if(winner[0]=="Y"){
-                myScore++;
-            }
-            if(winner[0]=="C"){
-                computerScore++;
-            }
+                if(winner[0]=="Y"){
+                    myScore++;
+                }
+                if(winner[0]=="C"){
+                    computerScore++;
+                }
+                
+                gameOver(myScore, computerScore);
+
+                document.getElementById("playerScore").innerHTML = myScore;
+                document.getElementById("computerScore").innerHTML = computerScore;
+                document.getElementById("winner").innerHTML = winner;
+            }))
         }
-        console.log("Your score: " + myScore);
-        console.log("Computer score: " + computerScore);
+  
+        game();
+    </script>
+</body>
+</html>
+
+<style>
+    .weapon{
+        display: flex;
+        
     }
-    game();
-</script>
+</style>
